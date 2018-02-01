@@ -1,0 +1,83 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="dsSample" targetNamespace="http://www.tempuri.org/dsSample.xsd" xmlns:mstns="http://www.tempuri.org/dsSample.xsd" xmlns="http://www.tempuri.org/dsSample.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:element name="dsSample" msdata:IsDataSet="true" msdata:Locale="ja-JP">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="T_サブ">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="注文NO" type="xs:int" minOccurs="0" />
+              <xs:element name="商品番号" type="xs:string" minOccurs="0" />
+              <xs:element name="商品名" type="xs:string" minOccurs="0" />
+              <xs:element name="単価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="数量" type="xs:int" minOccurs="0" />
+              <xs:element name="金額" msdata:ReadOnly="true" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="T_メイン">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="注文NO" type="xs:int" />
+              <xs:element name="日付" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="顧客ID" type="xs:int" minOccurs="0" />
+              <xs:element name="社員ID" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="T_社員">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="社員ID" type="xs:int" />
+              <xs:element name="氏名" type="xs:string" minOccurs="0" />
+              <xs:element name="フリガナ" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="T_商品">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="商品番号" type="xs:string" />
+              <xs:element name="商品名" type="xs:string" minOccurs="0" />
+              <xs:element name="単価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="商品グループ" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="T_顧客">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="顧客ID" type="xs:int" />
+              <xs:element name="氏名" type="xs:string" minOccurs="0" />
+              <xs:element name="フリガナ" type="xs:string" minOccurs="0" />
+              <xs:element name="郵便番号" type="xs:string" minOccurs="0" />
+              <xs:element name="都道府県" type="xs:string" minOccurs="0" />
+              <xs:element name="住所" type="xs:string" minOccurs="0" />
+              <xs:element name="電話番号" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:T_メイン" />
+      <xs:field xpath="mstns:注文NO" />
+    </xs:unique>
+    <xs:unique name="T_社員_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:T_社員" />
+      <xs:field xpath="mstns:社員ID" />
+    </xs:unique>
+    <xs:unique name="T_商品_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:T_商品" />
+      <xs:field xpath="mstns:商品番号" />
+    </xs:unique>
+    <xs:unique name="T_顧客_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:T_顧客" />
+      <xs:field xpath="mstns:顧客ID" />
+    </xs:unique>
+    <xs:keyref name="relMainSub" refer="Constraint1">
+      <xs:selector xpath=".//mstns:T_サブ" />
+      <xs:field xpath="mstns:注文NO" />
+    </xs:keyref>
+  </xs:element>
+</xs:schema>

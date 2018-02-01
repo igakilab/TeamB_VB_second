@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--このファイルは XML スキーマ デザイナで自動生成されています。コンポーネントのレイアウト情報はデザイナ画面に保持されます。-->
+<XSDDesignerLayout layoutVersion="1" viewPortLeft="0" viewPortTop="0">
+    <T_サブ_XmlElement left="635" top="635" width="5292" height="2646" selected="0" zOrder="2" index="0" />
+    <T_メイン_XmlElement left="7197" top="635" width="5292" height="2646" selected="0" zOrder="3" index="1" />
+    <T_顧客_XmlElement left="13759" top="635" width="5292" height="2646" selected="0" zOrder="5" index="2" />
+    <T_社員_XmlElement left="20321" top="635" width="5292" height="2646" selected="0" zOrder="7" index="3" />
+    <T_商品_XmlElement left="26883" top="635" width="5292" height="2646" selected="0" zOrder="9" index="4" />
+    <relMainSub_XmlKeyref left="6311" top="4353" width="503" height="503" selected="0" zOrder="10" />
+</XSDDesignerLayout>
