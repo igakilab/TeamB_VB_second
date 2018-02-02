@@ -382,4 +382,13 @@ Public Class frmShohin
     Private Sub mnuRecordSortDesc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecordSortDesc.Click
         dvShohin.Sort = "単価 DESC"
     End Sub
+
+    Private Sub mnuRecordReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecordReset.Click
+        'フィルタ並べ替え解除
+        dvShohin.RowFilter = ""
+        dvShohin.Sort = ""
+
+        '先頭レコードに移動
+        Me.BindingContext(dvShohin).Position = 0
+    End Sub
 End Class
