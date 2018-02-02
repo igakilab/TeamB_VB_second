@@ -149,7 +149,39 @@ Public Class frmShain
     '［閉じる］メニュー
     '
     Private Sub mnuFileQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileQuit.Click
-        Me.Close()
+        Dim flg As Boolean    '変更されたかどうか
+        Dim btn As DialogResult    '選択したボタン
+
+        '編集を終了
+        Me.BindingContext(DsSample1, "T_社員").EndCurrentEdit()
+
+        '変更されたかどうか
+        flg = DsSample1.HasChanges()
+
+        '変更されていないとき
+        If flg = False Then
+            Me.Close()
+            Exit Sub
+        End If
+
+        '変更されているとき
+        btn = MessageBox.Show("編集結果が保存されていません。" _
+      & ControlChars.CrLf & "保存して終了しますか？", "社員登録",
+      MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+
+        Select Case btn
+            Case DialogResult.Yes    'はい
+                '保存して終了
+                m_fm.odaShain.Update(DsSample1, "T_社員")
+                Me.Close()
+
+            Case DialogResult.No   'いいえ
+                '保存せずに終了
+                Me.Close()
+
+            Case DialogResult.Cancel 'キャンセル
+                '何もしない
+        End Select
     End Sub
 
     Private Sub mnuEditFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditFind.Click
@@ -193,5 +225,33 @@ Public Class frmShain
             MessageBox.Show("該当する［社員ID］はありません", "社員登録",
         MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
+    End Sub
+
+    Private Sub mnuFileLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileLoad.Click
+        Dim btn As DialogResult  '選択したボタン
+
+        '確認
+        btn = MessageBox.Show("編集中のデータを破棄して、データを再ロードします。" _
+      & ControlChars.CrLf & "よろしいですか", "社員登録",
+      MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+
+        'キャンセルボタンを選択
+        If btn = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        'データセットの初期化
+        DsSample1.Clear()
+
+        'データ読み込み
+        m_fm.odaShain.Fill(DsSample1, "T_社員")
+    End Sub
+
+    Private Sub mnuFileSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileSave.Click
+        '編集を終了
+        Me.BindingContext(DsSample1, "T_社員").EndCurrentEdit()
+
+        '保存
+        m_fm.odaShain.Update(DsSample1, "T_社員")
     End Sub
 End Class
