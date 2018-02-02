@@ -610,4 +610,78 @@ Public Class frmDenpyo
         'コントロール
         btnPrevious.Enabled = False
     End Sub
+
+    Private Sub txtKokyakuID_TextChanged(sender As Object, e As EventArgs) Handles txtKokyakuID.TextChanged
+
+    End Sub
+
+    Private Sub txtKokyakuID_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtKokyakuID.Validating
+        Dim r As DataRow   '検索したレコード
+
+        '検索
+        r = DsSample1.T_顧客.Rows.Find(txtKokyakuID.Text)
+        If IsNothing(r) Then
+            MessageBox.Show("該当する［顧客ID］は見つかりません", "伝票入力")
+            txtKokyakuName.Text = ""
+            e.Cancel = True
+        Else
+            txtKokyakuName.Text = r("氏名")
+        End If
+    End Sub
+
+    Private Sub txtShainID_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtShainID.Validating
+        Dim r As DataRow   '検索したレコード
+
+        '検索
+        r = DsSample1.T_社員.Rows.Find(txtShainID.Text)
+        If IsNothing(r) Then
+            MessageBox.Show("該当する［社員ID］は見つかりません", "伝票入力")
+            txtShainName.Text = ""
+            e.Cancel = True
+        Else
+            txtShainName.Text = r("氏名")
+        End If
+    End Sub
+
+    Private Sub mnuEditFind_Click(sender As Object, e As EventArgs) Handles mnuEditFind.Click
+        Dim fm As New frmDialog()   '検索フォーム
+        Dim flg As Boolean    '見つかったかどうか
+        Dim i As Integer      'カウンタ
+        Dim n As Integer      '削除されたレコード数
+
+        'キャンセルされたとき
+        If fm.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        '値が入力されなかったとき
+        If fm.Value = "" Then
+            Exit Sub
+        End If
+
+        '検索
+        flg = False
+        n = 0
+        For i = 0 To DsSample1.T_メイン.Rows.Count - 1
+            'レコードが削除されているときの処理
+            If DsSample1.T_メイン.Rows(i).RowState = DataRowState.Deleted Then
+                n = n + 1
+            Else
+                If DsSample1.T_メイン.Rows(i)("注文NO") = fm.Value Then
+                    flg = True
+                    Exit For
+                End If
+            End If
+        Next i
+
+        '結果を表示
+        If flg = True Then
+            Me.BindingContext(DsSample1, "T_メイン").Position = (i - n)
+            DispPosition()
+            DispName()
+
+        Else
+            MessageBox.Show("該当する［注文NO］はありません", "伝票入力")
+        End If
+    End Sub
 End Class
