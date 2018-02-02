@@ -40,8 +40,10 @@ Public Class frmShain
     Friend WithEvents mnuEditFind As System.Windows.Forms.MenuItem
     Friend WithEvents DsSample1 As SampleAppli.dsSample
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.dbgShain = New System.Windows.Forms.DataGrid()
-        Me.MainMenu1 = New System.Windows.Forms.MainMenu()
+        Me.DsSample1 = New SampleAppli.dsSample()
+        Me.MainMenu1 = New System.Windows.Forms.MainMenu(Me.components)
         Me.mnuFile = New System.Windows.Forms.MenuItem()
         Me.mnuFileLoad = New System.Windows.Forms.MenuItem()
         Me.mnuFileSave = New System.Windows.Forms.MenuItem()
@@ -49,7 +51,6 @@ Public Class frmShain
         Me.mnuFileQuit = New System.Windows.Forms.MenuItem()
         Me.mnuEdit = New System.Windows.Forms.MenuItem()
         Me.mnuEditFind = New System.Windows.Forms.MenuItem()
-        Me.DsSample1 = New SampleAppli.dsSample()
         CType(Me.dbgShain, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DsSample1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -59,10 +60,16 @@ Public Class frmShain
         Me.dbgShain.DataMember = "T_社員"
         Me.dbgShain.DataSource = Me.DsSample1
         Me.dbgShain.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.dbgShain.Location = New System.Drawing.Point(16, 16)
+        Me.dbgShain.Location = New System.Drawing.Point(22, 20)
         Me.dbgShain.Name = "dbgShain"
-        Me.dbgShain.Size = New System.Drawing.Size(296, 312)
+        Me.dbgShain.Size = New System.Drawing.Size(415, 390)
         Me.dbgShain.TabIndex = 1
+        '
+        'DsSample1
+        '
+        Me.DsSample1.DataSetName = "dsSample"
+        Me.DsSample1.Locale = New System.Globalization.CultureInfo("ja-JP")
+        Me.DsSample1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'MainMenu1
         '
@@ -105,17 +112,11 @@ Public Class frmShain
         Me.mnuEditFind.Index = 0
         Me.mnuEditFind.Text = "検索（&F）..."
         '
-        'DsSample1
-        '
-        Me.DsSample1.DataSetName = "dsSample"
-        Me.DsSample1.Locale = New System.Globalization.CultureInfo("ja-JP")
-        Me.DsSample1.Namespace = "http://www.tempuri.org/dsSample.xsd"
-        '
         'frmShain
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 12)
-        Me.ClientSize = New System.Drawing.Size(328, 342)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.dbgShain})
+        Me.AutoScaleBaseSize = New System.Drawing.Size(7, 15)
+        Me.ClientSize = New System.Drawing.Size(328, 317)
+        Me.Controls.Add(Me.dbgShain)
         Me.Menu = Me.MainMenu1
         Me.Name = "frmShain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
@@ -151,4 +152,46 @@ Public Class frmShain
         Me.Close()
     End Sub
 
+    Private Sub mnuEditFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditFind.Click
+        Dim fm As New frmDialog()   '検索フォーム
+        Dim flg As Boolean    '見つかったかどうか
+        Dim i As Integer      'カウンタ
+        Dim n As Integer      '削除されたレコード数
+
+        'キャンセルされたとき
+        If fm.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        '値が入力されなかったとき
+        If fm.Value = "" Then
+            Exit Sub
+        End If
+
+        '検索
+        flg = False
+        n = 0
+        For i = 0 To DsSample1.T_社員.Rows.Count - 1
+            'レコードが削除されているとき
+            If DsSample1.T_社員.Rows(i).RowState = DataRowState.Deleted Then
+                n = n + 1
+            Else
+                If DsSample1.T_社員.Rows(i)("社員ID") = fm.Value Then
+                    flg = True
+                    Exit For
+                End If
+            End If
+        Next i
+
+
+        '結果を表示
+        If flg = True Then
+            '削除された分の調整
+            Me.BindingContext(DsSample1, "T_社員").Position = (i - n)
+
+        Else
+            MessageBox.Show("該当する［社員ID］はありません", "社員登録",
+        MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
 End Class
