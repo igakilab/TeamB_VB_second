@@ -438,7 +438,39 @@ Public Class frmDenpyo
     '［閉じる］メニュー
     '
     Private Sub mnuFileQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileQuit.Click
-        Me.Close()
+        Dim flg As Boolean         '変更されたかどうか
+        Dim btn As DialogResult    '選択したボタン
+
+        '編集の確認
+        ChkModified()
+
+        '変更されたかどうか
+        flg = DsSample1.HasChanges()
+
+        '変更されていないとき
+        If flg = False Then
+            Me.Close()
+            Exit Sub
+        End If
+
+        '変更されているとき
+        btn = MessageBox.Show("編集結果が保存されていません。" _
+      & ControlChars.CrLf & "保存して終了しますか？", "伝票入力",
+      MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+
+        Select Case btn
+            Case DialogResult.Yes    'はい
+                '保存して終了
+                m_fm.odaMain.Update(DsSample1, "T_メイン")
+                m_fm.odaSub.Update(DsSample1, "T_サブ")
+                Me.Close()
+            Case DialogResult.No   'いいえ
+                '保存せずに終了
+                Me.Close()
+
+            Case DialogResult.Cancel 'キャンセル
+                '何もしない
+        End Select
     End Sub
 
 
@@ -641,5 +673,14 @@ Public Class frmDenpyo
         '初期化
         DispPosition()
         DispName()
+    End Sub
+
+    Private Sub mnuFileSave_Click(sender As Object, e As EventArgs) Handles mnuFileSave.Click
+        '編集の確認
+        ChkModified()
+
+        '保存
+        m_fm.odaMain.Update(DsSample1, "T_メイン")
+        m_fm.odaSub.Update(DsSample1, "T_サブ")
     End Sub
 End Class
