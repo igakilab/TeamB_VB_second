@@ -63,7 +63,8 @@ Public Class frmKokyaku
     Friend WithEvents mnuEditFindID As System.Windows.Forms.MenuItem
     Friend WithEvents mnuEditFindTel As System.Windows.Forms.MenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.MainMenu1 = New System.Windows.Forms.MainMenu()
+        Me.components = New System.ComponentModel.Container()
+        Me.MainMenu1 = New System.Windows.Forms.MainMenu(Me.components)
         Me.mnuFile = New System.Windows.Forms.MenuItem()
         Me.mnuFileLoad = New System.Windows.Forms.MenuItem()
         Me.mnuFileSave = New System.Windows.Forms.MenuItem()
@@ -77,6 +78,13 @@ Public Class frmKokyaku
         Me.dvHurigana = New System.Data.DataView()
         Me.dbgKokyaku = New System.Windows.Forms.DataGrid()
         Me.DataGridTableStyle1 = New System.Windows.Forms.DataGridTableStyle()
+        Me.DataGridTextBoxColumn1 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn2 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn3 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn4 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn5 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn6 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn7 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.tabHurigana = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
@@ -89,13 +97,6 @@ Public Class frmKokyaku
         Me.TabPage9 = New System.Windows.Forms.TabPage()
         Me.TabPage10 = New System.Windows.Forms.TabPage()
         Me.TabPage11 = New System.Windows.Forms.TabPage()
-        Me.DataGridTextBoxColumn1 = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.DataGridTextBoxColumn2 = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.DataGridTextBoxColumn3 = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.DataGridTextBoxColumn4 = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.DataGridTextBoxColumn5 = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.DataGridTextBoxColumn6 = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.DataGridTextBoxColumn7 = New System.Windows.Forms.DataGridTextBoxColumn()
         CType(Me.DsSample1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dvHurigana, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dbgKokyaku, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -158,7 +159,7 @@ Public Class frmKokyaku
         '
         Me.DsSample1.DataSetName = "dsSample"
         Me.DsSample1.Locale = New System.Globalization.CultureInfo("ja-JP")
-        Me.DsSample1.Namespace = "http://www.tempuri.org/dsSample.xsd"
+        Me.DsSample1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'dvHurigana
         '
@@ -169,9 +170,9 @@ Public Class frmKokyaku
         Me.dbgKokyaku.DataMember = ""
         Me.dbgKokyaku.DataSource = Me.dvHurigana
         Me.dbgKokyaku.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.dbgKokyaku.Location = New System.Drawing.Point(16, 40)
+        Me.dbgKokyaku.Location = New System.Drawing.Point(22, 50)
         Me.dbgKokyaku.Name = "dbgKokyaku"
-        Me.dbgKokyaku.Size = New System.Drawing.Size(672, 312)
+        Me.dbgKokyaku.Size = New System.Drawing.Size(941, 390)
         Me.dbgKokyaku.TabIndex = 3
         Me.dbgKokyaku.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.DataGridTableStyle1})
         '
@@ -181,113 +182,6 @@ Public Class frmKokyaku
         Me.DataGridTableStyle1.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.DataGridTextBoxColumn1, Me.DataGridTextBoxColumn2, Me.DataGridTextBoxColumn3, Me.DataGridTextBoxColumn4, Me.DataGridTextBoxColumn5, Me.DataGridTextBoxColumn6, Me.DataGridTextBoxColumn7})
         Me.DataGridTableStyle1.HeaderForeColor = System.Drawing.SystemColors.ControlText
         Me.DataGridTableStyle1.MappingName = "T_顧客"
-        '
-        'tabHurigana
-        '
-        Me.tabHurigana.Controls.AddRange(New System.Windows.Forms.Control() {Me.TabPage1, Me.TabPage2, Me.TabPage3, Me.TabPage4, Me.TabPage5, Me.TabPage6, Me.TabPage7, Me.TabPage8, Me.TabPage9, Me.TabPage10, Me.TabPage11})
-        Me.tabHurigana.Location = New System.Drawing.Point(16, 16)
-        Me.tabHurigana.Name = "tabHurigana"
-        Me.tabHurigana.SelectedIndex = 0
-        Me.tabHurigana.Size = New System.Drawing.Size(672, 24)
-        Me.tabHurigana.TabIndex = 2
-        '
-        'TabPage1
-        '
-        Me.TabPage1.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(664, 0)
-        Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "全"
-        '
-        'TabPage2
-        '
-        Me.TabPage2.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Size = New System.Drawing.Size(664, -1)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "あ"
-        Me.TabPage2.Visible = False
-        '
-        'TabPage3
-        '
-        Me.TabPage3.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(664, -1)
-        Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "か"
-        Me.TabPage3.Visible = False
-        '
-        'TabPage4
-        '
-        Me.TabPage4.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(664, -1)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "さ"
-        Me.TabPage4.Visible = False
-        '
-        'TabPage5
-        '
-        Me.TabPage5.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Size = New System.Drawing.Size(664, -1)
-        Me.TabPage5.TabIndex = 4
-        Me.TabPage5.Text = "た"
-        Me.TabPage5.Visible = False
-        '
-        'TabPage6
-        '
-        Me.TabPage6.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage6.Name = "TabPage6"
-        Me.TabPage6.Size = New System.Drawing.Size(664, -1)
-        Me.TabPage6.TabIndex = 5
-        Me.TabPage6.Text = "な"
-        Me.TabPage6.Visible = False
-        '
-        'TabPage7
-        '
-        Me.TabPage7.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Size = New System.Drawing.Size(664, -1)
-        Me.TabPage7.TabIndex = 6
-        Me.TabPage7.Text = "は"
-        Me.TabPage7.Visible = False
-        '
-        'TabPage8
-        '
-        Me.TabPage8.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage8.Name = "TabPage8"
-        Me.TabPage8.Size = New System.Drawing.Size(664, -1)
-        Me.TabPage8.TabIndex = 7
-        Me.TabPage8.Text = "ま"
-        Me.TabPage8.Visible = False
-        '
-        'TabPage9
-        '
-        Me.TabPage9.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage9.Name = "TabPage9"
-        Me.TabPage9.Size = New System.Drawing.Size(664, -1)
-        Me.TabPage9.TabIndex = 8
-        Me.TabPage9.Text = "や"
-        Me.TabPage9.Visible = False
-        '
-        'TabPage10
-        '
-        Me.TabPage10.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage10.Name = "TabPage10"
-        Me.TabPage10.Size = New System.Drawing.Size(664, -1)
-        Me.TabPage10.TabIndex = 9
-        Me.TabPage10.Text = "ら"
-        Me.TabPage10.Visible = False
-        '
-        'TabPage11
-        '
-        Me.TabPage11.Location = New System.Drawing.Point(4, 21)
-        Me.TabPage11.Name = "TabPage11"
-        Me.TabPage11.Size = New System.Drawing.Size(664, -1)
-        Me.TabPage11.TabIndex = 10
-        Me.TabPage11.Text = "わ"
-        Me.TabPage11.Visible = False
         '
         'DataGridTextBoxColumn1
         '
@@ -346,11 +240,129 @@ Public Class frmKokyaku
         Me.DataGridTextBoxColumn7.MappingName = "電話番号"
         Me.DataGridTextBoxColumn7.Width = 90
         '
+        'tabHurigana
+        '
+        Me.tabHurigana.Controls.Add(Me.TabPage1)
+        Me.tabHurigana.Controls.Add(Me.TabPage2)
+        Me.tabHurigana.Controls.Add(Me.TabPage3)
+        Me.tabHurigana.Controls.Add(Me.TabPage4)
+        Me.tabHurigana.Controls.Add(Me.TabPage5)
+        Me.tabHurigana.Controls.Add(Me.TabPage6)
+        Me.tabHurigana.Controls.Add(Me.TabPage7)
+        Me.tabHurigana.Controls.Add(Me.TabPage8)
+        Me.tabHurigana.Controls.Add(Me.TabPage9)
+        Me.tabHurigana.Controls.Add(Me.TabPage10)
+        Me.tabHurigana.Controls.Add(Me.TabPage11)
+        Me.tabHurigana.Location = New System.Drawing.Point(22, 20)
+        Me.tabHurigana.Name = "tabHurigana"
+        Me.tabHurigana.SelectedIndex = 0
+        Me.tabHurigana.Size = New System.Drawing.Size(941, 30)
+        Me.tabHurigana.TabIndex = 2
+        '
+        'TabPage1
+        '
+        Me.TabPage1.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "全"
+        '
+        'TabPage2
+        '
+        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "あ"
+        Me.TabPage2.Visible = False
+        '
+        'TabPage3
+        '
+        Me.TabPage3.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage3.TabIndex = 2
+        Me.TabPage3.Text = "か"
+        Me.TabPage3.Visible = False
+        '
+        'TabPage4
+        '
+        Me.TabPage4.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "さ"
+        Me.TabPage4.Visible = False
+        '
+        'TabPage5
+        '
+        Me.TabPage5.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage5.Name = "TabPage5"
+        Me.TabPage5.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage5.TabIndex = 4
+        Me.TabPage5.Text = "た"
+        Me.TabPage5.Visible = False
+        '
+        'TabPage6
+        '
+        Me.TabPage6.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage6.Name = "TabPage6"
+        Me.TabPage6.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage6.TabIndex = 5
+        Me.TabPage6.Text = "な"
+        Me.TabPage6.Visible = False
+        '
+        'TabPage7
+        '
+        Me.TabPage7.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage7.Name = "TabPage7"
+        Me.TabPage7.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage7.TabIndex = 6
+        Me.TabPage7.Text = "は"
+        Me.TabPage7.Visible = False
+        '
+        'TabPage8
+        '
+        Me.TabPage8.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage8.Name = "TabPage8"
+        Me.TabPage8.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage8.TabIndex = 7
+        Me.TabPage8.Text = "ま"
+        Me.TabPage8.Visible = False
+        '
+        'TabPage9
+        '
+        Me.TabPage9.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage9.Name = "TabPage9"
+        Me.TabPage9.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage9.TabIndex = 8
+        Me.TabPage9.Text = "や"
+        Me.TabPage9.Visible = False
+        '
+        'TabPage10
+        '
+        Me.TabPage10.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage10.Name = "TabPage10"
+        Me.TabPage10.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage10.TabIndex = 9
+        Me.TabPage10.Text = "ら"
+        Me.TabPage10.Visible = False
+        '
+        'TabPage11
+        '
+        Me.TabPage11.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage11.Name = "TabPage11"
+        Me.TabPage11.Size = New System.Drawing.Size(933, 1)
+        Me.TabPage11.TabIndex = 10
+        Me.TabPage11.Text = "わ"
+        Me.TabPage11.Visible = False
+        '
         'frmKokyaku
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 12)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(7, 15)
         Me.ClientSize = New System.Drawing.Size(704, 369)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.dbgKokyaku, Me.tabHurigana})
+        Me.Controls.Add(Me.dbgKokyaku)
+        Me.Controls.Add(Me.tabHurigana)
         Me.Menu = Me.MainMenu1
         Me.Name = "frmKokyaku"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
@@ -389,5 +401,77 @@ Public Class frmKokyaku
         Me.Close()
     End Sub
 
+    Private Sub mnuEditFindID_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditFindID.Click
+        Dim fm As New frmDialog()   '検索フォーム
+        Dim flg As Boolean    '見つかったかどうか
+        Dim i As Integer      'カウンタ
 
+        'キャンセルされたとき
+        If fm.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        '値が入力されなかったとき
+        If fm.Value = "" Then
+            Exit Sub
+        End If
+
+        '検索準備
+        dvHurigana.RowFilter = ""
+        tabHurigana.SelectedIndex = 0
+
+        '検索
+        flg = False
+        For i = 0 To dvHurigana.Count - 1
+            If dvHurigana(i)("顧客ID") = fm.Value Then
+                flg = True
+                Exit For
+            End If
+        Next i
+
+        '結果を表示
+        If flg = True Then
+            Me.BindingContext(dvHurigana).Position = i
+
+        Else
+            MessageBox.Show("該当する［顧客ID］はありません", "顧客登録")
+        End If
+    End Sub
+
+    Private Sub mnuEditFindTel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditFindTel.Click
+        Dim fm As New frmDialog()   '検索フォーム
+        Dim flg As Boolean    '見つかったかどうか
+        Dim i As Integer      'カウンタ
+
+        'キャンセルされたとき
+        If fm.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        '値が入力されなかったとき
+        If fm.Value = "" Then
+            Exit Sub
+        End If
+
+        '検索準備
+        dvHurigana.RowFilter = ""
+        tabHurigana.SelectedIndex = 0
+
+        '検索
+        flg = False
+        For i = 0 To dvHurigana.Count - 1
+            If dvHurigana(i)("電話番号") = fm.Value Then
+                flg = True
+                Exit For
+            End If
+        Next i
+
+        '結果を表示
+        If flg = True Then
+            Me.BindingContext(dvHurigana).Position = i
+
+        Else
+            MessageBox.Show("該当する［電話番号］はありません", "顧客登録")
+        End If
+    End Sub
 End Class
