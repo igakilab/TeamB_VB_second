@@ -560,4 +560,54 @@ Public Class frmDenpyo
         DispPosition()
         DispName()
     End Sub
+
+    Private Sub btnLast_Click(sender As Object, e As EventArgs) Handles btnLast.Click
+        '編集の確認
+        ChkModified()
+
+        '最終レコードに移動
+        Me.BindingContext(DsSample1, "T_メイン").Position() _
+          = Me.BindingContext(DsSample1, "T_メイン").Count - 1
+        DispPosition()
+        DispName()
+    End Sub
+
+    Private Sub btnFirst_Click(sender As Object, e As EventArgs) Handles btnFirst.Click
+        '編集の確認
+        ChkModified()
+
+        '先頭レコードに移動
+        Me.BindingContext(DsSample1, "T_メイン").Position = 0
+        DispPosition()
+        DispName()
+    End Sub
+
+    Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
+        Dim r As DataRow  '追加したレコード
+
+        '編集の確認
+        ChkModified()
+
+        '［注文NO］を更新
+        m_iNo = m_iNo + 1
+
+        '新しいレコードを追加
+        r = DsSample1.T_メイン.NewRow()
+        r("注文NO") = m_iNo
+        r("日付") = Today()
+        DsSample1.T_メイン.Rows.Add(r)
+
+        '追加したレコードに移動
+        Me.BindingContext(DsSample1, "T_メイン").Position _
+          = Me.BindingContext(DsSample1, "T_メイン").Count - 1
+        DispPosition()
+        m_bNew = True
+
+        '顧客名・社員名の初期化
+        txtKokyakuName.Text = ""
+        txtShainName.Text = ""
+
+        'コントロール
+        btnPrevious.Enabled = False
+    End Sub
 End Class
