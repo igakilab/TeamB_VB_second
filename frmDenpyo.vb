@@ -397,41 +397,41 @@ Public Class frmDenpyo
 
     'モジュールレベル変数
     Private m_fm As Form1       'Form1
-  Private m_iNo As Integer    '注文NO
-  Private m_bNew As Boolean   '新規フラグ
+    Private m_iNo As Integer    '注文NO
+    Private m_bNew As Boolean   '新規フラグ
 
-  '-------------------
-  '起動時
-  '
-  Private Sub frmDenpyo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-    Dim iCnt As Integer   '［T_メイン］テーブルのレコード数
+    '-------------------
+    '起動時
+    '
+    Private Sub frmDenpyo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim iCnt As Integer   '［T_メイン］テーブルのレコード数
 
-    'Form1 を参照
-    m_fm = Form1.ActiveForm
+        'Form1 を参照
+        m_fm = Form1.ActiveForm
 
-    'データ読み込み
-    m_fm.odaMain.Fill(DsSample1, "T_メイン")
-    m_fm.odaSub.Fill(DsSample1, "T_サブ")
-    m_fm.odaKokyaku.Fill(DsSample1, "T_顧客")
-    m_fm.odaShain.Fill(DsSample1, "T_社員")
-    m_fm.odaShohin.Fill(DsSample1, "T_商品")   'レポート用
+        'データ読み込み
+        m_fm.odaMain.Fill(DsSample1, "T_メイン")
+        m_fm.odaSub.Fill(DsSample1, "T_サブ")
+        m_fm.odaKokyaku.Fill(DsSample1, "T_顧客")
+        m_fm.odaShain.Fill(DsSample1, "T_社員")
+        m_fm.odaShohin.Fill(DsSample1, "T_商品")   'レポート用
 
-    '演算フィールド
-    DsSample1.T_サブ.Columns("金額").Expression = "単価*数量"
+        '演算フィールド
+        DsSample1.T_サブ.Columns("金額").Expression = "単価*数量"
 
-    '初期化
-    DispPosition()
-    DispName()
-    m_bNew = False
+        '初期化
+        DispPosition()
+        DispName()
+        m_bNew = False
 
-    '注文NOの初期値
-    iCnt = DsSample1.T_メイン.Rows.Count
-    If icnt = 0 Then
-      m_iNo = 0
-    Else
-      m_iNo = DsSample1.T_メイン.Rows(iCnt - 1)("注文NO")
-    End If
-  End Sub
+        '注文NOの初期値
+        iCnt = DsSample1.T_メイン.Rows.Count
+        If iCnt = 0 Then
+            m_iNo = 0
+        Else
+            m_iNo = DsSample1.T_メイン.Rows(iCnt - 1)("注文NO")
+        End If
+    End Sub
 
 
     '
@@ -539,5 +539,15 @@ Public Class frmDenpyo
         '初期化
         m_bNew = False
         btnPrevious.Enabled = True
+    End Sub
+
+    Private Sub btnNext_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNext.Click
+        '編集の確認
+        ChkModified()
+
+        '次のレコードに移動
+        Me.BindingContext(DsSample1, "T_メイン").Position() += 1
+        DispPosition()
+        DispName()
     End Sub
 End Class
