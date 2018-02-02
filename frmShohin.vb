@@ -259,7 +259,39 @@ Public Class frmShohin
     '［閉じる］メニュー
     '
     Private Sub mnuFileQuilt_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileQuilt.Click
-        Me.Close()
+        Dim flg As Boolean        '変更されたかどうか
+        Dim btn As DialogResult   '選択したボタン
+
+        'カレントレコードの編集を終了
+        Me.BindingContext(dvShohin).EndCurrentEdit()
+
+        '変更されたかどうか
+        flg = DsSample1.HasChanges()
+
+        '変更されていないとき
+        If flg = False Then
+            Me.Close()
+            Exit Sub
+        End If
+
+        '変更されているとき
+        btn = MessageBox.Show("編集結果が保存されていません。" _
+      & ControlChars.CrLf & "保存して終了しますか？", "商品登録",
+      MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+
+        Select Case btn
+            Case DialogResult.Yes    'はい
+                '保存して終了
+                m_fm.odaShohin.Update(DsSample1, "T_商品")
+                Me.Close()
+
+            Case DialogResult.No   'いいえ
+                '保存せずに終了
+                Me.Close()
+
+            Case DialogResult.Cancel 'キャンセル
+                '何もしない
+        End Select
     End Sub
 
     Private Sub mnuEditFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditFind.Click
@@ -316,5 +348,13 @@ Public Class frmShohin
         'データ読み込み
         m_fm.odaShohin.Fill(DsSample1, "T_商品")
         Me.BindingContext(dvShohin).Position = 0
+    End Sub
+
+    Private Sub mnuFileSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileSave.Click
+        '編集を終了
+        Me.BindingContext(dvShohin).EndCurrentEdit()
+
+        '保存
+        m_fm.odaShohin.Update(DsSample1, "T_商品")
     End Sub
 End Class
