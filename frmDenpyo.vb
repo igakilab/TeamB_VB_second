@@ -29,42 +29,42 @@ Public Class frmDenpyo
     ' メモ : 以下のプロシージャは、Windows フォーム デザイナで必要です。
     ' Windows フォーム デザイナを使って変更してください。  
     ' コード エディタは使用しないでください。
-  Friend WithEvents dbgSub As System.Windows.Forms.DataGrid
-  Friend WithEvents Label4 As System.Windows.Forms.Label
-  Friend WithEvents Label3 As System.Windows.Forms.Label
-  Friend WithEvents Label2 As System.Windows.Forms.Label
-  Friend WithEvents Label1 As System.Windows.Forms.Label
-  Friend WithEvents txtPosition As System.Windows.Forms.TextBox
-  Friend WithEvents txtShainName As System.Windows.Forms.TextBox
-  Friend WithEvents txtKokyakuName As System.Windows.Forms.TextBox
-  Friend WithEvents txtShainID As System.Windows.Forms.TextBox
-  Friend WithEvents txtKokyakuID As System.Windows.Forms.TextBox
-  Friend WithEvents txtDate As System.Windows.Forms.TextBox
-  Friend WithEvents txtNo As System.Windows.Forms.TextBox
-  Friend WithEvents btnLast As System.Windows.Forms.Button
-  Friend WithEvents btnNext As System.Windows.Forms.Button
-  Friend WithEvents btnNew As System.Windows.Forms.Button
-  Friend WithEvents btnPrevious As System.Windows.Forms.Button
-  Friend WithEvents btnFirst As System.Windows.Forms.Button
-  Friend WithEvents MainMenu1 As System.Windows.Forms.MainMenu
-  Friend WithEvents mnuFile As System.Windows.Forms.MenuItem
-  Friend WithEvents mnuFileLoad As System.Windows.Forms.MenuItem
-  Friend WithEvents mnuFileSave As System.Windows.Forms.MenuItem
+    Friend WithEvents dbgSub As System.Windows.Forms.DataGrid
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents txtPosition As System.Windows.Forms.TextBox
+    Friend WithEvents txtShainName As System.Windows.Forms.TextBox
+    Friend WithEvents txtKokyakuName As System.Windows.Forms.TextBox
+    Friend WithEvents txtShainID As System.Windows.Forms.TextBox
+    Friend WithEvents txtKokyakuID As System.Windows.Forms.TextBox
+    Friend WithEvents txtDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtNo As System.Windows.Forms.TextBox
+    Friend WithEvents btnLast As System.Windows.Forms.Button
+    Friend WithEvents btnNext As System.Windows.Forms.Button
+    Friend WithEvents btnNew As System.Windows.Forms.Button
+    Friend WithEvents btnPrevious As System.Windows.Forms.Button
+    Friend WithEvents btnFirst As System.Windows.Forms.Button
+    Friend WithEvents MainMenu1 As System.Windows.Forms.MainMenu
+    Friend WithEvents mnuFile As System.Windows.Forms.MenuItem
+    Friend WithEvents mnuFileLoad As System.Windows.Forms.MenuItem
+    Friend WithEvents mnuFileSave As System.Windows.Forms.MenuItem
     Friend WithEvents mnuFileStep2 As System.Windows.Forms.MenuItem
     Friend WithEvents mnuFileQuit As System.Windows.Forms.MenuItem
-  Friend WithEvents mnuEdit As System.Windows.Forms.MenuItem
-  Friend WithEvents mnuEditFind As System.Windows.Forms.MenuItem
-  Friend WithEvents mnuEditStep As System.Windows.Forms.MenuItem
-  Friend WithEvents mnuEditDelete As System.Windows.Forms.MenuItem
-  Friend WithEvents DsSample1 As SampleAppli.dsSample
-  Friend WithEvents DataGridTableStyle1 As System.Windows.Forms.DataGridTableStyle
-  Friend WithEvents DataGridTextBoxColumn1 As System.Windows.Forms.DataGridTextBoxColumn
-  Friend WithEvents DataGridTextBoxColumn2 As System.Windows.Forms.DataGridTextBoxColumn
-  Friend WithEvents DataGridTextBoxColumn3 As System.Windows.Forms.DataGridTextBoxColumn
-  Friend WithEvents DataGridTextBoxColumn4 As System.Windows.Forms.DataGridTextBoxColumn
-  Friend WithEvents DataGridTextBoxColumn5 As System.Windows.Forms.DataGridTextBoxColumn
-  Friend WithEvents DataGridTextBoxColumn6 As System.Windows.Forms.DataGridTextBoxColumn
-  <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+    Friend WithEvents mnuEdit As System.Windows.Forms.MenuItem
+    Friend WithEvents mnuEditFind As System.Windows.Forms.MenuItem
+    Friend WithEvents mnuEditStep As System.Windows.Forms.MenuItem
+    Friend WithEvents mnuEditDelete As System.Windows.Forms.MenuItem
+    Friend WithEvents DsSample1 As SampleAppli.dsSample
+    Friend WithEvents DataGridTableStyle1 As System.Windows.Forms.DataGridTableStyle
+    Friend WithEvents DataGridTextBoxColumn1 As System.Windows.Forms.DataGridTextBoxColumn
+    Friend WithEvents DataGridTextBoxColumn2 As System.Windows.Forms.DataGridTextBoxColumn
+    Friend WithEvents DataGridTextBoxColumn3 As System.Windows.Forms.DataGridTextBoxColumn
+    Friend WithEvents DataGridTextBoxColumn4 As System.Windows.Forms.DataGridTextBoxColumn
+    Friend WithEvents DataGridTextBoxColumn5 As System.Windows.Forms.DataGridTextBoxColumn
+    Friend WithEvents DataGridTextBoxColumn6 As System.Windows.Forms.DataGridTextBoxColumn
+    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.dbgSub = New System.Windows.Forms.DataGrid()
         Me.DsSample1 = New SampleAppli.dsSample()
@@ -438,7 +438,39 @@ Public Class frmDenpyo
     '［閉じる］メニュー
     '
     Private Sub mnuFileQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileQuit.Click
-        Me.Close()
+        Dim flg As Boolean         '変更されたかどうか
+        Dim btn As DialogResult    '選択したボタン
+
+        '編集の確認
+        ChkModified()
+
+        '変更されたかどうか
+        flg = DsSample1.HasChanges()
+
+        '変更されていないとき
+        If flg = False Then
+            Me.Close()
+            Exit Sub
+        End If
+
+        '変更されているとき
+        btn = MessageBox.Show("編集結果が保存されていません。" _
+      & ControlChars.CrLf & "保存して終了しますか？", "伝票入力",
+      MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+
+        Select Case btn
+            Case DialogResult.Yes    'はい
+                '保存して終了
+                m_fm.odaMain.Update(DsSample1, "T_メイン")
+                m_fm.odaSub.Update(DsSample1, "T_サブ")
+                Me.Close()
+            Case DialogResult.No   'いいえ
+                '保存せずに終了
+                Me.Close()
+
+            Case DialogResult.Cancel 'キャンセル
+                '何もしない
+        End Select
     End Sub
 
 
@@ -611,6 +643,68 @@ Public Class frmDenpyo
         btnPrevious.Enabled = False
     End Sub
 
+
+    Private Sub mnuFileLoad_Click(sender As Object, e As EventArgs) Handles mnuFileLoad.Click
+        Dim btn As DialogResult   '選択したボタン
+
+        '確認
+        btn = MessageBox.Show("編集中のデータを破棄して、データを再ロードします。" _
+            & ControlChars.CrLf & "よろしいですか", "伝票入力",
+            MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+
+        'キャンセルボタンを選択
+        If btn = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        'データセットの初期化
+        DsSample1.Clear()
+        DsSample1.T_サブ.Columns.Remove("金額")
+
+        'データ読み込み
+        m_fm.odaMain.Fill(DsSample1, "T_メイン")
+        m_fm.odaSub.Fill(DsSample1, "T_サブ")
+        m_fm.odaKokyaku.Fill(DsSample1, "T_顧客")
+        m_fm.odaShain.Fill(DsSample1, "T_社員")
+        m_fm.odaShohin.Fill(DsSample1, "T_商品")
+
+        '演算フィールド
+        DsSample1.T_サブ.Columns("金額").Expression = "単価*数量"
+
+        '初期化
+        DispPosition()
+        DispName()
+    End Sub
+
+    Private Sub mnuFileSave_Click(sender As Object, e As EventArgs) Handles mnuFileSave.Click
+        '編集の確認
+        ChkModified()
+
+        '保存
+        m_fm.odaMain.Update(DsSample1, "T_メイン")
+        m_fm.odaSub.Update(DsSample1, "T_サブ")
+    End Sub
+
+    Private Sub mnuEditDelete_Click(sender As Object, e As EventArgs) Handles mnuEditDelete.Click
+        Dim btn As DialogResult    '選択したボタン
+        Dim iPos As Integer   'レコード位置
+
+        '確認
+        btn = MessageBox.Show("注文NO  " & txtNo.Text & "  を削除します。" _
+                              & "よろしいですか", "伝票削除",
+                              MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        '削除
+        If btn = DialogResult.Yes Then
+            iPos = Me.BindingContext(DsSample1, "T_メイン").Position
+            Me.BindingContext(DsSample1, "T_メイン").RemoveAt(iPos)
+            DispPosition()
+            DispName()
+        End If
+
+
+    End Sub
+
     Private Sub txtKokyakuID_TextChanged(sender As Object, e As EventArgs) Handles txtKokyakuID.TextChanged
 
     End Sub
@@ -682,6 +776,7 @@ Public Class frmDenpyo
 
         Else
             MessageBox.Show("該当する［注文NO］はありません", "伝票入力")
+
         End If
     End Sub
 End Class
