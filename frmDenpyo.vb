@@ -683,4 +683,22 @@ Public Class frmDenpyo
         m_fm.odaMain.Update(DsSample1, "T_メイン")
         m_fm.odaSub.Update(DsSample1, "T_サブ")
     End Sub
+
+    Private Sub mnuEditDelete_Click(sender As Object, e As EventArgs) Handles mnuEditDelete.Click
+        Dim btn As DialogResult    '選択したボタン
+        Dim iPos As Integer   'レコード位置
+
+        '確認
+        btn = MessageBox.Show("注文NO  " & txtNo.Text & "  を削除します。" _
+                              & "よろしいですか", "伝票削除",
+                              MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        '削除
+        If btn = DialogResult.Yes Then
+            iPos = Me.BindingContext(DsSample1, "T_メイン").Position
+            Me.BindingContext(DsSample1, "T_メイン").RemoveAt(iPos)
+            DispPosition()
+            DispName()
+        End If
+    End Sub
 End Class
