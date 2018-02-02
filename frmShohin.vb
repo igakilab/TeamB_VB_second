@@ -357,4 +357,21 @@ Public Class frmShohin
         '保存
         m_fm.odaShohin.Update(DsSample1, "T_商品")
     End Sub
+
+    Private Sub mnuRecordFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecordFilter.Click
+        Dim fm As New frmDialog()   '検索フォーム
+
+        'キャンセルされたとき
+        If fm.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        '値が入力されなかったとき
+        If fm.Value = "" Then
+            Exit Sub
+        End If
+
+        'フィルタ実行
+        dvShohin.RowFilter = "商品グループ = '" & fm.Value & "'"
+    End Sub
 End Class
