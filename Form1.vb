@@ -453,4 +453,59 @@ Public Class Form1
         fm.Show()
     End Sub
 
+    Private Sub mnuToolExportCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuToolExportCsv.Click
+        Dim sw As IO.StreamWriter    'StreamWriterオブジェクト
+        Dim i As Integer    'カウンタ
+        Dim sbuf As String  'ファイルに出力するデータ
+
+        '［名前を付けて保存］ダイアログ
+        dlgSave.InitialDirectory = Application.StartupPath & "\.."
+        dlgSave.Filter = "CSV形式（*.csv）|*.csv|XML形式(*.xml)|*.xml|すべて（*.*）|*.*"
+        If dlgSave.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        'データ読み込み
+        odaShohin.Fill(DsSample1, "T_商品")
+
+        'ファイルオープン
+        sw = New IO.StreamWriter(dlgSave.FileName,
+          False, System.Text.Encoding.GetEncoding("Shift-JIS"))
+
+        'ファイルに出力
+        For i = 0 To DsSample1.T_商品.Rows.Count - 1
+            sbuf = DsSample1.T_商品.Rows(i)("商品番号") & "," _
+         & DsSample1.T_商品.Rows(i)("商品名") & "," _
+         & DsSample1.T_商品.Rows(i)("単価") & "," _
+         & DsSample1.T_商品.Rows(i)("商品グループ")
+            sw.WriteLine(sbuf)
+        Next
+
+        'ファイルクローズ
+        sw.Close()
+        MessageBox.Show("保存しました", "エクスポート")
+    End Sub
+
+    Private Sub mnuToolExportXml_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuToolExportXml.Click
+        Dim fw As IO.FileStream   'FileStreamオブジェクト
+
+        '［名前を付けて保存］ダイアログ
+        dlgSave.InitialDirectory = Application.StartupPath & "\.."
+        dlgSave.Filter = "XML形式(*.xml)|*.xml|CSV形式（*.csv）|*.csv|すべて（*.*）|*.*"
+        If dlgSave.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        'データ読み込み
+        odaShohin.Fill(DsSample1, "T_商品")
+
+        'ファイルに出力
+        fw = New IO.FileStream(dlgSave.FileName,
+       IO.FileMode.OpenOrCreate, IO.FileAccess.Write)
+        DsSample1.WriteXml(fw)
+
+        'ファイルクローズ
+        fw.Close()
+        MessageBox.Show("保存しました", "エクスポート")
+    End Sub
 End Class

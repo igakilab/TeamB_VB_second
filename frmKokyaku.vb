@@ -540,4 +540,81 @@ Public Class frmKokyaku
         m_fm.odaKokyaku.Update(DsSample1, "T_顧客")
 
     End Sub
+
+    Private Sub tabHurigana_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tabHurigana.SelectedIndexChanged
+        Select Case tabHurigana.SelectedIndex
+            Case 0
+                dvHurigana.RowFilter = ""
+
+            Case 1
+                dvHurigana.RowFilter = "(フリガナ Like 'ｱ%')" _
+                           & " OR (フリガナ Like 'ｲ%')" _
+                           & " OR (フリガナ Like 'ｳ%')" _
+                           & " OR (フリガナ Like 'ｴ%')" _
+                           & " OR (フリガナ Like 'ｵ%')"
+
+            Case 2
+                dvHurigana.RowFilter = "(フリガナ Like 'ｶ%') OR (フリガナ Like 'ｶﾞ%')" _
+                           & " OR (フリガナ Like 'ｷ%') OR (フリガナ Like 'ｷﾞ%')" _
+                           & " OR (フリガナ Like 'ｸ%') OR (フリガナ Like 'ｸﾞ%')" _
+                           & " OR (フリガナ Like 'ｹ%') OR (フリガナ Like 'ｹﾞ%')" _
+                           & " OR (フリガナ Like 'ｺ%') OR (フリガナ Like 'ｺﾞ%')"
+
+            Case 3
+                dvHurigana.RowFilter = "(フリガナ Like 'ｻ%') OR (フリガナ Like 'ｻﾞ%')" _
+                           & " OR (フリガナ Like 'ｼ%') OR (フリガナ Like 'ｼﾞ%')" _
+                           & " OR (フリガナ Like 'ｽ%') OR (フリガナ Like 'ｽﾞ%')" _
+                           & " OR (フリガナ Like 'ｾ%') OR (フリガナ Like 'ｾﾞ%')" _
+                           & " OR (フリガナ Like 'ｿ%') OR (フリガナ Like 'ｿﾞ%')"
+
+            Case 4
+                dvHurigana.RowFilter = "(フリガナ Like 'ﾀ%') OR (フリガナ Like 'ﾀﾞ%')" _
+                           & " OR (フリガナ Like 'ﾁ%') OR (フリガナ Like 'ﾁﾞ%')" _
+                           & " OR (フリガナ Like 'ﾂ%') OR (フリガナ Like 'ﾂﾞ%')" _
+                           & " OR (フリガナ Like 'ﾃ%') OR (フリガナ Like 'ﾃﾞ%')" _
+                           & " OR (フリガナ Like 'ﾄ%') OR (フリガナ Like 'ﾄﾞ%')"
+
+            Case 5
+                dvHurigana.RowFilter = "(フリガナ Like 'ﾅ%')" _
+                           & " OR (フリガナ Like 'ﾆ%')" _
+                           & " OR (フリガナ Like 'ﾇ%')" _
+                           & " OR (フリガナ Like 'ﾈ%')" _
+                           & " OR (フリガナ Like 'ﾉ%')"
+
+            Case 6
+                dvHurigana.RowFilter = "(フリガナ Like 'ﾊ%') OR (フリガナ Like 'ﾊﾞ%')" _
+                           & " OR (フリガナ Like 'ﾋ%') OR (フリガナ Like 'ﾋﾞ%')" _
+                           & " OR (フリガナ Like 'ﾌ%') OR (フリガナ Like 'ﾌﾞ%')" _
+                           & " OR (フリガナ Like 'ﾍ%') OR (フリガナ Like 'ﾍﾞ%')" _
+                           & " OR (フリガナ Like 'ﾎ%') OR (フリガナ Like 'ﾎﾞ%')" _
+                           & " OR (フリガナ Like 'ﾊﾟ%') OR (フリガナ Like 'ﾋﾟ%')" _
+                           & " OR (フリガナ Like 'ﾌﾟ%') OR (フリガナ Like 'ﾍﾟ%')" _
+                           & " OR (フリガナ Like 'ﾎﾟ%')"
+
+            Case 7
+                dvHurigana.RowFilter = "(フリガナ Like 'ﾏ%')" _
+                           & " OR (フリガナ Like 'ﾐ%')" _
+                           & " OR (フリガナ Like 'ﾑ%')" _
+                           & " OR (フリガナ Like 'ﾒ%')" _
+                           & " OR (フリガナ Like 'ﾓ%')"
+
+            Case 8
+                dvHurigana.RowFilter = "(フリガナ Like 'ﾔ%')" _
+                           & " OR (フリガナ Like 'ﾕ%')" _
+                           & " OR (フリガナ Like 'ﾖ%')"
+
+            Case 9
+                dvHurigana.RowFilter = "(フリガナ Like 'ﾗ%')" _
+                           & " OR (フリガナ Like 'ﾘ%')" _
+                           & " OR (フリガナ Like 'ﾙ%')" _
+                           & " OR (フリガナ Like 'ﾚ%')" _
+                           & " OR (フリガナ Like 'ﾛ%')"
+
+            Case 10
+                dvHurigana.RowFilter = "(フリガナ Like 'ﾜ%')" _
+                           & " OR (フリガナ Like 'ｦ%')" _
+                           & " OR (フリガナ Like 'ﾝ%')"
+
+        End Select
+    End Sub
 End Class
