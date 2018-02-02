@@ -87,9 +87,9 @@ Public Class frmShohin
         Me.dbgShohin.DataMember = ""
         Me.dbgShohin.DataSource = Me.dvShohin
         Me.dbgShohin.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.dbgShohin.Location = New System.Drawing.Point(22, 20)
+        Me.dbgShohin.Location = New System.Drawing.Point(16, 16)
         Me.dbgShohin.Name = "dbgShohin"
-        Me.dbgShohin.Size = New System.Drawing.Size(644, 283)
+        Me.dbgShohin.Size = New System.Drawing.Size(460, 226)
         Me.dbgShohin.TabIndex = 1
         Me.dbgShohin.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.DataGridTableStyle1})
         '
@@ -223,7 +223,7 @@ Public Class frmShohin
         '
         'frmShohin
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(7, 15)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 12)
         Me.ClientSize = New System.Drawing.Size(694, 315)
         Me.Controls.Add(Me.dbgShohin)
         Me.Menu = Me.MainMenu1
@@ -262,4 +262,34 @@ Public Class frmShohin
         Me.Close()
     End Sub
 
+    Private Sub mnuEditFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditFind.Click
+        Dim fm As New frmDialog()   '検索フォーム
+        Dim flg As Boolean    '見つかったかどうか
+        Dim i As Integer      'カウンタ
+        Dim iRow As Integer   '検索したレコード
+
+        'キャンセルされたとき
+        If fm.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        '値が入力されなかったとき
+        If fm.Value = "" Then
+            Exit Sub
+        End If
+
+        '検索準備
+        dvShohin.RowFilter = ""
+        dvShohin.Sort = "商品番号"
+
+        '検索
+        iRow = dvShohin.Find(fm.Value)
+        If (iRow <> -1) Then
+            dbgShohin.CurrentRowIndex = iRow
+        Else
+            MessageBox.Show("該当する［商品番号］はありません", "商品登録",
+                  MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+        dvShohin.Sort = ""
+    End Sub
 End Class
