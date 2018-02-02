@@ -40,8 +40,10 @@ Public Class frmShain
     Friend WithEvents mnuEditFind As System.Windows.Forms.MenuItem
     Friend WithEvents DsSample1 As SampleAppli.dsSample
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.dbgShain = New System.Windows.Forms.DataGrid()
-        Me.MainMenu1 = New System.Windows.Forms.MainMenu()
+        Me.DsSample1 = New SampleAppli.dsSample()
+        Me.MainMenu1 = New System.Windows.Forms.MainMenu(Me.components)
         Me.mnuFile = New System.Windows.Forms.MenuItem()
         Me.mnuFileLoad = New System.Windows.Forms.MenuItem()
         Me.mnuFileSave = New System.Windows.Forms.MenuItem()
@@ -49,7 +51,6 @@ Public Class frmShain
         Me.mnuFileQuit = New System.Windows.Forms.MenuItem()
         Me.mnuEdit = New System.Windows.Forms.MenuItem()
         Me.mnuEditFind = New System.Windows.Forms.MenuItem()
-        Me.DsSample1 = New SampleAppli.dsSample()
         CType(Me.dbgShain, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DsSample1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -59,10 +60,16 @@ Public Class frmShain
         Me.dbgShain.DataMember = "T_社員"
         Me.dbgShain.DataSource = Me.DsSample1
         Me.dbgShain.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.dbgShain.Location = New System.Drawing.Point(16, 16)
+        Me.dbgShain.Location = New System.Drawing.Point(22, 20)
         Me.dbgShain.Name = "dbgShain"
-        Me.dbgShain.Size = New System.Drawing.Size(296, 312)
+        Me.dbgShain.Size = New System.Drawing.Size(415, 390)
         Me.dbgShain.TabIndex = 1
+        '
+        'DsSample1
+        '
+        Me.DsSample1.DataSetName = "dsSample"
+        Me.DsSample1.Locale = New System.Globalization.CultureInfo("ja-JP")
+        Me.DsSample1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'MainMenu1
         '
@@ -105,17 +112,11 @@ Public Class frmShain
         Me.mnuEditFind.Index = 0
         Me.mnuEditFind.Text = "検索（&F）..."
         '
-        'DsSample1
-        '
-        Me.DsSample1.DataSetName = "dsSample"
-        Me.DsSample1.Locale = New System.Globalization.CultureInfo("ja-JP")
-        Me.DsSample1.Namespace = "http://www.tempuri.org/dsSample.xsd"
-        '
         'frmShain
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 12)
-        Me.ClientSize = New System.Drawing.Size(328, 342)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.dbgShain})
+        Me.AutoScaleBaseSize = New System.Drawing.Size(7, 15)
+        Me.ClientSize = New System.Drawing.Size(328, 317)
+        Me.Controls.Add(Me.dbgShain)
         Me.Menu = Me.MainMenu1
         Me.Name = "frmShain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
@@ -148,7 +149,66 @@ Public Class frmShain
     '［閉じる］メニュー
     '
     Private Sub mnuFileQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileQuit.Click
-        Me.Close()
+        Dim flg As Boolean    '変更されたかどうか
+        Dim btn As DialogResult    '選択したボタン
+
+        '編集を終了
+        Me.BindingContext(DsSample1, "T_社員").EndCurrentEdit()
+
+        '変更されたかどうか
+        flg = DsSample1.HasChanges()
+
+        '変更されていないとき
+        If flg = False Then
+            Me.Close()
+            Exit Sub
+        End If
+
+        '変更されているとき
+        btn = MessageBox.Show("編集結果が保存されていません。" _
+      & ControlChars.CrLf & "保存して終了しますか？", "社員登録",
+      MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+
+        Select Case btn
+            Case DialogResult.Yes    'はい
+                '保存して終了
+                m_fm.odaShain.Update(DsSample1, "T_社員")
+                Me.Close()
+
+            Case DialogResult.No   'いいえ
+                '保存せずに終了
+                Me.Close()
+
+            Case DialogResult.Cancel 'キャンセル
+                '何もしない
+        End Select
     End Sub
 
+    Private Sub mnuFileLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileLoad.Click
+        Dim btn As DialogResult  '選択したボタン
+
+        '確認
+        btn = MessageBox.Show("編集中のデータを破棄して、データを再ロードします。" _
+      & ControlChars.CrLf & "よろしいですか", "社員登録",
+      MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+
+        'キャンセルボタンを選択
+        If btn = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        'データセットの初期化
+        DsSample1.Clear()
+
+        'データ読み込み
+        m_fm.odaShain.Fill(DsSample1, "T_社員")
+    End Sub
+
+    Private Sub mnuFileSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileSave.Click
+        '編集を終了
+        Me.BindingContext(DsSample1, "T_社員").EndCurrentEdit()
+
+        '保存
+        m_fm.odaShain.Update(DsSample1, "T_社員")
+    End Sub
 End Class
