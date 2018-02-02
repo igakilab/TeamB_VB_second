@@ -84,4 +84,16 @@ Public Class frmDialog
 
 #End Region
 
+    Public Property Value() As String
+        'éQè∆
+        Get
+            Return txtKey.Text
+        End Get
+
+        'çXêV
+        Set(ByVal Value As String)
+
+        End Set
+    End Property
+
 End Class
