@@ -184,6 +184,49 @@ Public Class frmShain
         End Select
     End Sub
 
+    Private Sub mnuEditFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditFind.Click
+        Dim fm As New frmDialog()   '検索フォーム
+        Dim flg As Boolean    '見つかったかどうか
+        Dim i As Integer      'カウンタ
+        Dim n As Integer      '削除されたレコード数
+
+        'キャンセルされたとき
+        If fm.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        '値が入力されなかったとき
+        If fm.Value = "" Then
+            Exit Sub
+        End If
+
+        '検索
+        flg = False
+        n = 0
+        For i = 0 To DsSample1.T_社員.Rows.Count - 1
+            'レコードが削除されているとき
+            If DsSample1.T_社員.Rows(i).RowState = DataRowState.Deleted Then
+                n = n + 1
+            Else
+                If DsSample1.T_社員.Rows(i)("社員ID") = fm.Value Then
+                    flg = True
+                    Exit For
+                End If
+            End If
+        Next i
+
+
+        '結果を表示
+        If flg = True Then
+            '削除された分の調整
+            Me.BindingContext(DsSample1, "T_社員").Position = (i - n)
+
+        Else
+            MessageBox.Show("該当する［社員ID］はありません", "社員登録",
+        MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
     Private Sub mnuFileLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileLoad.Click
         Dim btn As DialogResult  '選択したボタン
 

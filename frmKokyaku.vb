@@ -457,11 +457,87 @@ Public Class frmKokyaku
         tabHurigana.SelectedIndex = 0
     End Sub
 
+
+    Private Sub mnuEditFindID_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditFindID.Click
+        Dim fm As New frmDialog()   '検索フォーム
+        Dim flg As Boolean    '見つかったかどうか
+        Dim i As Integer      'カウンタ
+
+        'キャンセルされたとき
+        If fm.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        '値が入力されなかったとき
+        If fm.Value = "" Then
+            Exit Sub
+        End If
+
+        '検索準備
+        dvHurigana.RowFilter = ""
+        tabHurigana.SelectedIndex = 0
+
+        '検索
+        flg = False
+        For i = 0 To dvHurigana.Count - 1
+            If dvHurigana(i)("顧客ID") = fm.Value Then
+                flg = True
+                Exit For
+            End If
+        Next i
+
+        '結果を表示
+        If flg = True Then
+            Me.BindingContext(dvHurigana).Position = i
+
+        Else
+            MessageBox.Show("該当する［顧客ID］はありません", "顧客登録")
+        End If
+    End Sub
+
+    Private Sub mnuEditFindTel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditFindTel.Click
+        Dim fm As New frmDialog()   '検索フォーム
+        Dim flg As Boolean    '見つかったかどうか
+        Dim i As Integer      'カウンタ
+
+        'キャンセルされたとき
+        If fm.ShowDialog = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        '値が入力されなかったとき
+        If fm.Value = "" Then
+            Exit Sub
+        End If
+
+        '検索準備
+        dvHurigana.RowFilter = ""
+        tabHurigana.SelectedIndex = 0
+
+        '検索
+        flg = False
+        For i = 0 To dvHurigana.Count - 1
+            If dvHurigana(i)("電話番号") = fm.Value Then
+                flg = True
+                Exit For
+            End If
+        Next i
+
+        '結果を表示
+        If flg = True Then
+            Me.BindingContext(dvHurigana).Position = i
+
+        Else
+            MessageBox.Show("該当する［電話番号］はありません", "顧客登録")
+        End If
+    End Sub
+
     Private Sub mnuFileSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileSave.Click
         '編集を終了
         Me.BindingContext(dvHurigana).EndCurrentEdit()
 
         '保存
         m_fm.odaKokyaku.Update(DsSample1, "T_顧客")
+
     End Sub
 End Class
