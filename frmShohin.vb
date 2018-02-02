@@ -292,4 +292,29 @@ Public Class frmShohin
         End If
         dvShohin.Sort = ""
     End Sub
+
+    Private Sub mnuFileLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileLoad.Click
+        Dim btn As DialogResult  '選択したボタン
+
+        '確認
+        btn = MessageBox.Show("編集中のデータを破棄して、データを再ロードします。" _
+      & ControlChars.CrLf & "よろしいですか", "商品登録",
+      MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+
+        'キャンセルボタンを選択
+        If btn = DialogResult.Cancel Then
+            Exit Sub
+        End If
+
+        'データセットの初期化
+        DsSample1.Clear()
+
+        'フィルタ並べ替え解除
+        dvShohin.RowFilter = ""
+        dvShohin.Sort = ""
+
+        'データ読み込み
+        m_fm.odaShohin.Fill(DsSample1, "T_商品")
+        Me.BindingContext(dvShohin).Position = 0
+    End Sub
 End Class
