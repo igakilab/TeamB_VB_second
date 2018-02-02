@@ -550,4 +550,14 @@ Public Class frmDenpyo
         DispPosition()
         DispName()
     End Sub
+
+    Private Sub btnPrevious_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrevious.Click
+        '編集の確認
+        ChkModified()
+
+        '１つ前のレコードに移動
+        Me.BindingContext(DsSample1, "T_メイン").Position() -= 1
+        DispPosition()
+        DispName()
+    End Sub
 End Class
